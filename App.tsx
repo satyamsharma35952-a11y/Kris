@@ -5,6 +5,7 @@ import { HeroModern } from './components/HeroModern.tsx';
 import { HeroGourmet } from './components/HeroGourmet.tsx';
 import { HeroOrganic } from './components/HeroOrganic.tsx';
 import { WhoWeAre } from './components/WhoWeAre.tsx';
+import { WhatWeDo } from './components/WhatWeDo.tsx';
 import { DesignStyle, ContentData } from './types.ts';
 import { generateCreativeCopy } from './services/geminiService.ts';
 
@@ -72,6 +73,7 @@ const App: React.FC = () => {
       <main>
         {renderHero()}
         <WhoWeAre />
+        <WhatWeDo />
       </main>
 
       <StyleSwitcher />
