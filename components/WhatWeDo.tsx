@@ -5,51 +5,76 @@ interface ServiceCardProps {
   title: string;
   description: string;
   icon: React.ReactNode;
-  variant: 'dark' | 'image' | 'light';
+  variant: 'accent' | 'image' | 'clean' | 'dark';
   bgImage?: string;
+  className?: string;
   delay: string;
 }
 
-const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, icon, variant, bgImage, delay }) => {
-  const baseClasses = `relative p-8 rounded-[2.5rem] h-[400px] flex flex-col justify-center items-center text-center transition-all duration-500 ease-out hover:-translate-y-4 hover:shadow-[0_30px_60px_-15px_rgba(26,138,67,0.3)] group overflow-hidden opacity-0 animate-fade-in-up`;
+const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, icon, variant, bgImage, className, delay }) => {
+  const baseClasses = `group relative rounded-[2.5rem] p-8 flex flex-col justify-between overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-3 hover:shadow-[0_40px_80px_-20px_rgba(26,138,67,0.25)] opacity-0 animate-reveal`;
   
-  const variants = {
-    dark: 'bg-brand-dark text-white',
+  const variantStyles = {
+    accent: 'bg-brand-red text-white',
     image: 'bg-slate-900 text-white',
-    light: 'bg-white text-slate-900 border border-slate-100 shadow-sm hover:border-brand-green/20'
+    clean: 'bg-white text-slate-900 border border-slate-100',
+    dark: 'bg-brand-dark text-white'
   };
 
   return (
-    <div className={`${baseClasses} ${variants[variant]} ${delay}`} style={{ animationFillMode: 'forwards' }}>
+    <div 
+      className={`${baseClasses} ${variantStyles[variant]} ${className} ${delay}`}
+      style={{ animationFillMode: 'forwards' }}
+    >
       {variant === 'image' && (
         <>
-          <img src={bgImage} className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:scale-110 transition-transform duration-1000" alt={title} />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 to-transparent"></div>
+          <img 
+            src={bgImage} 
+            className="absolute inset-0 w-full h-full object-cover opacity-50 transition-transform duration-1000 group-hover:scale-110" 
+            alt={title} 
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/40 to-transparent"></div>
         </>
       )}
 
-      <div className="relative z-10 flex flex-col items-center">
-        <div className={`mb-6 transform transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 ${variant === 'light' ? 'text-brand-green' : 'text-brand-red'}`}>
+      {/* Decorative patterns for non-image cards */}
+      {variant !== 'image' && variant !== 'clean' && (
+        <div className="absolute top-0 right-0 p-4 opacity-10">
+          <svg className="w-24 h-24" viewBox="0 0 100 100" fill="currentColor">
+            <circle cx="50" cy="50" r="40" stroke="white" strokeWidth="2" fill="none" strokeDasharray="4 4" />
+          </svg>
+        </div>
+      )}
+
+      <div className="relative z-10">
+        <div className={`mb-8 w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:rotate-[15deg] group-hover:scale-110 ${
+          variant === 'clean' ? 'bg-brand-green/10 text-brand-green' : 'bg-white/10 text-white'
+        }`}>
           {icon}
         </div>
-
-        <h3 className="text-xl lg:text-2xl font-black mb-4 tracking-tight uppercase">{title}</h3>
-        
-        <p className={`text-sm leading-relaxed mb-8 max-w-[240px] ${variant === 'light' ? 'text-slate-500' : 'text-brand-light/70'}`}>
+        <h3 className="text-2xl font-black leading-tight tracking-tight mb-3">
+          {title}
+        </h3>
+        <p className={`text-sm leading-relaxed max-w-[220px] transition-colors duration-300 ${
+          variant === 'clean' ? 'text-slate-500 group-hover:text-slate-700' : 'text-white/70 group-hover:text-white'
+        }`}>
           {description}
         </p>
+      </div>
 
-        <a href="#" className={`inline-flex items-center space-x-2 font-bold text-sm transition-all ${variant === 'light' ? 'text-brand-red' : 'text-brand-green'} hover:space-x-4`}>
-          <span>Learn More</span>
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+      <div className="relative z-10 mt-8">
+        <a href="#" className={`inline-flex items-center space-x-3 font-bold text-sm tracking-wide transition-all duration-300 group-hover:space-x-5 ${
+          variant === 'clean' ? 'text-brand-green' : 'text-white'
+        }`}>
+          <span className="uppercase tracking-widest">Learn More</span>
+          <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>
         </a>
       </div>
-      
-      {variant !== 'light' && (
-        <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-white/5 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
-      )}
+
+      {/* Subtle hover glow */}
+      <div className="absolute -inset-full bg-gradient-to-tr from-white/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 rotate-45"></div>
     </div>
   );
 };
@@ -57,98 +82,115 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, icon, var
 export const WhatWeDo: React.FC = () => {
   return (
     <section className="py-32 bg-brand-light relative overflow-hidden">
+      {/* Dynamic Background Elements */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20">
+        <div className="absolute top-1/4 left-10 w-96 h-96 bg-brand-green/10 rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-brand-red/10 rounded-full blur-[120px]"></div>
+      </div>
+
       <style>{`
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(40px); }
-          to { opacity: 1; transform: translateY(0); }
+        @keyframes reveal {
+          0% { opacity: 0; transform: translateY(30px) scale(0.98); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
         }
-        .animate-fade-in-up {
-          animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        .delay-100 { animation-delay: 100ms; }
-        .delay-200 { animation-delay: 200ms; }
-        .delay-300 { animation-delay: 300ms; }
-        .delay-400 { animation-delay: 400ms; }
-        .delay-500 { animation-delay: 500ms; }
-        .delay-600 { animation-delay: 600ms; }
+        .animate-reveal { animation: reveal 1s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        .delay-6 { animation-delay: 0.6s; }
       `}</style>
 
       <div className="container mx-auto px-6 lg:px-12">
-        <div className="text-center mb-20 space-y-6">
-          <div className="inline-flex items-center space-x-4 bg-white px-6 py-2 rounded-full border border-slate-100 shadow-sm">
-             <div className="h-[2px] w-8 bg-brand-red"></div>
-             <span className="text-brand-green font-bold text-xs uppercase tracking-[0.3em]">Exquisite Services</span>
-             <div className="h-[2px] w-8 bg-brand-red"></div>
+        {/* Editorial Heading Section */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-20 gap-8">
+          <div className="max-w-3xl space-y-6">
+            <div className="flex items-center space-x-4">
+              <span className="h-px w-12 bg-brand-red"></span>
+              <span className="text-brand-green font-black text-sm uppercase tracking-[0.4em]">Our Expertise</span>
+            </div>
+            <h2 className="text-5xl lg:text-7xl font-bold text-slate-900 leading-[1.1] tracking-tighter">
+              Bespoke <span className="italic font-serif text-brand-green font-normal">Catering</span> <br />
+              Tailored For Your Vision.
+            </h2>
           </div>
-          <h2 className="text-5xl lg:text-7xl font-bold text-slate-900 tracking-tight leading-tight max-w-4xl mx-auto">
-            We Have Services For <span className="relative inline-block italic font-serif text-brand-green">
-              Catering
-              <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 100 10" preserveAspectRatio="none">
-                <path d="M0 5 Q 25 0, 50 5 T 100 5" stroke="#BF311A" strokeWidth="4" fill="transparent" strokeLinecap="round" />
-              </svg>
-            </span> Tailored To Your Event.
-          </h2>
+          <div className="lg:max-w-xs pb-2">
+            <p className="text-slate-500 font-medium leading-relaxed border-l-2 border-brand-red/20 pl-6">
+              From high-stakes boardrooms to intimate gala dinners, we bring global culinary standards to your doorstep.
+            </p>
+          </div>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <ServiceCard 
-            delay="delay-100"
-            variant="dark"
-            title="Cafeteria Services"
-            description="Freshly prepared nutritious meals for the modern corporate workspace."
-            icon={<svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
-          />
-          <ServiceCard 
-            delay="delay-200"
-            variant="image"
-            bgImage="https://images.unsplash.com/photo-1555244162-803834f70033?w=600&auto=format"
-            title="Corporate Catering"
-            description="Bespoke culinary experiences designed for executive meetings and events."
-            icon={<svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>}
-          />
-          <ServiceCard 
-            delay="delay-300"
-            variant="dark"
-            title="Industrial Catering"
-            description="Scaling gourmet standards to meet the high demands of industrial workforces."
-            icon={<svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>}
-          />
-          <ServiceCard 
-            delay="delay-400"
-            variant="light"
-            title="Packed Food Services"
-            description="Premium boxed lunches and dinners—hygienic, timely, and delicious."
-            icon={<svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>}
-          />
+        {/* Bento Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-[280px]">
           
+          {/* Main Hero Card - Spans 2 rows */}
           <ServiceCard 
-            delay="delay-300"
-            variant="light"
-            title="Special Events"
-            description="From gallery openings to grand weddings, we provide the perfect culinary backdrop."
-            icon={<svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>}
+            className="md:row-span-2"
+            delay="delay-1"
+            variant="image"
+            bgImage="https://images.unsplash.com/photo-1555244162-803834f70033?w=800&auto=format"
+            title="Corporate Cafeteria"
+            description="Revolutionizing office dining with chef-curated menus that boost team morale and health."
+            icon={<svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>}
           />
+
+          {/* Accent Card */}
           <ServiceCard 
-            delay="delay-400"
+            delay="delay-2"
+            variant="accent"
+            title="Premium Events"
+            description="Exquisite gala catering for milestones that demand perfection."
+            icon={<svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z" /></svg>}
+          />
+
+          {/* Clean Card */}
+          <ServiceCard 
+            delay="delay-3"
+            variant="clean"
+            title="Packed Meals"
+            description="Hygienic, premium boxes delivered fresh to your desk."
+            icon={<svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>}
+          />
+
+          {/* Dark Card - Spans 2 rows */}
+          <ServiceCard 
+            className="lg:row-span-2"
+            delay="delay-4"
             variant="dark"
-            title="Hospital Cafeteria"
-            description="Nutritious menus focused on recovery and wellness for healthcare professionals."
-            icon={<svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>}
+            title="Signature Curries"
+            description="Our heritage in every bite. Traditional recipes meet modern culinary techniques."
+            icon={<svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>}
           />
+
+          {/* Horizontal Spanning Card */}
           <ServiceCard 
-            delay="delay-500"
-            variant="light"
-            title="Salads & Bowls"
-            description="Fresh, locally-sourced bowls designed for health and high-energy performance."
-            icon={<svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>}
+            className="md:col-span-2"
+            delay="delay-5"
+            variant="clean"
+            title="Industrial Solutions"
+            description="Large-scale catering excellence for manufacturing and tech hubs, ensuring every worker is fueled for peak performance."
+            icon={<svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>}
           />
-          <ServiceCard 
-            delay="delay-600"
-            variant="dark"
-            title="House of Curry Specials"
-            description="Our signature curry collection featuring recipes passed down through generations."
-            icon={<svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>}
-          />
+
+        </div>
+
+        {/* Floating CTA */}
+        <div className="mt-20 flex flex-col items-center justify-center space-y-6">
+          <div className="p-4 bg-white rounded-3xl shadow-2xl flex items-center space-x-6 border border-slate-50">
+            <div className="flex -space-x-3">
+              {[1,2,3].map(i => (
+                <div key={i} className="w-10 h-10 rounded-full border-2 border-white overflow-hidden bg-slate-200">
+                  <img src={`https://i.pravatar.cc/100?img=${i+10}`} alt="Client" />
+                </div>
+              ))}
+            </div>
+            <p className="text-sm font-bold text-slate-700">Join <span className="text-brand-green">250+</span> Companies who trust us</p>
+            <button className="px-6 py-2 bg-brand-red text-white rounded-xl font-bold text-sm hover:bg-brand-red/90 transition-all">
+              Get Started
+            </button>
+          </div>
         </div>
       </div>
     </section>
