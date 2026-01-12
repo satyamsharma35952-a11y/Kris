@@ -4,6 +4,7 @@ import { Header } from './components/Header.tsx';
 import { HeroModern } from './components/HeroModern.tsx';
 import { HeroGourmet } from './components/HeroGourmet.tsx';
 import { HeroOrganic } from './components/HeroOrganic.tsx';
+import { WhoWeAre } from './components/WhoWeAre.tsx';
 import { DesignStyle, ContentData } from './types.ts';
 import { generateCreativeCopy } from './services/geminiService.ts';
 
@@ -70,11 +71,12 @@ const App: React.FC = () => {
       
       <main>
         {renderHero()}
+        <WhoWeAre />
       </main>
 
       <StyleSwitcher />
 
-      {/* Floating Chat Button as seen in original */}
+      {/* Floating Chat Button */}
       <div className="fixed bottom-8 right-8 z-[100] group">
          <div className="absolute bottom-full right-0 mb-4 bg-white px-4 py-2 rounded-xl shadow-xl text-sm font-bold text-slate-800 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0 duration-300">
            Need help? Chat with us!
