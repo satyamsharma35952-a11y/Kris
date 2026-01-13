@@ -11,3 +11,13 @@ export interface ContentData {
   stats: string;
   ctaText: string;
 }
+
+export interface Service {
+  id: string;
+  title: string;
+  description: string;
+  fullDescription: string;
+  image: string;
+  variant: 'accent' | 'image' | 'clean' | 'dark';
+  icon: string; // We'll store SVG path or similar
+}

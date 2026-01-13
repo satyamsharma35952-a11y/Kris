@@ -2,6 +2,7 @@
 import React from 'react';
 
 interface ServiceCardProps {
+  id: string;
   title: string;
   description: string;
   icon: React.ReactNode;
@@ -9,10 +10,11 @@ interface ServiceCardProps {
   bgImage?: string;
   className?: string;
   delay: string;
+  onClick: (id: string) => void;
 }
 
-const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, icon, variant, bgImage, className, delay }) => {
-  const baseClasses = `group relative rounded-[2.5rem] p-8 flex flex-col justify-between overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-3 hover:shadow-[0_40px_80px_-20px_rgba(26,138,67,0.25)] opacity-0 animate-reveal`;
+const ServiceCard: React.FC<ServiceCardProps> = ({ id, title, description, icon, variant, bgImage, className, delay, onClick }) => {
+  const baseClasses = `group relative rounded-[2.5rem] p-8 flex flex-col justify-between overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-3 hover:shadow-[0_40px_80px_-20px_rgba(26,138,67,0.25)] opacity-0 animate-reveal cursor-pointer`;
   
   const variantStyles = {
     accent: 'bg-brand-red text-white',
@@ -25,6 +27,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, icon, var
     <div 
       className={`${baseClasses} ${variantStyles[variant]} ${className} ${delay}`}
       style={{ animationFillMode: 'forwards' }}
+      onClick={() => onClick(id)}
     >
       {variant === 'image' && (
         <>
@@ -37,7 +40,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, icon, var
         </>
       )}
 
-      {/* Decorative patterns for non-image cards */}
+      {/* Decorative patterns */}
       {variant !== 'image' && variant !== 'clean' && (
         <div className="absolute top-0 right-0 p-4 opacity-10">
           <svg className="w-24 h-24" viewBox="0 0 100 100" fill="currentColor">
@@ -63,26 +66,72 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, icon, var
       </div>
 
       <div className="relative z-10 mt-8">
-        <a href="#" className={`inline-flex items-center space-x-3 font-bold text-sm tracking-wide transition-all duration-300 group-hover:space-x-5 ${
+        <div className={`inline-flex items-center space-x-3 font-bold text-sm tracking-wide transition-all duration-300 group-hover:space-x-5 ${
           variant === 'clean' ? 'text-brand-green' : 'text-white'
         }`}>
           <span className="uppercase tracking-widest">Learn More</span>
           <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>
-        </a>
+        </div>
       </div>
 
-      {/* Subtle hover glow */}
       <div className="absolute -inset-full bg-gradient-to-tr from-white/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 rotate-45"></div>
     </div>
   );
 };
 
-export const WhatWeDo: React.FC = () => {
+export const SERVICES_DATA = [
+  {
+    id: 'corporate-cafeteria',
+    title: "Corporate Cafeteria",
+    description: "Revolutionizing office dining with chef-curated menus.",
+    fullDescription: "Our corporate cafeteria solutions are designed to transform the workplace experience. We focus on nutritional balance, diversity of cuisine, and a vibrant atmosphere that fosters community and productivity among employees. From live counters to automated billing, we bring modern tech to traditional dining.",
+    image: "https://images.unsplash.com/photo-1555244162-803834f70033?w=800&auto=format",
+    variant: 'image' as const,
+    icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011-1v5m-4 0h4" /></svg>
+  },
+  {
+    id: 'premium-events',
+    title: "Premium Events",
+    description: "Exquisite gala catering for milestones that demand perfection.",
+    fullDescription: "Milestone events deserve more than just food; they deserve a culinary story. We provide end-to-end event catering management, including theme development, bespoke menu creation, and world-class service. Whether it is a grand opening or a leadership retreat, we ensure every plate is a masterpiece.",
+    image: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=800&auto=format",
+    variant: 'accent' as const,
+    icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z" /></svg>
+  },
+  {
+    id: 'packed-meals',
+    title: "Packed Meals",
+    description: "Hygienic, premium boxes delivered fresh to your desk.",
+    fullDescription: "The perfect solution for busy professionals and on-the-go teams. Our packed meal services emphasize food safety and freshness. Each box is meticulously planned to provide a complete meal—protein, fiber, and flavor—delivered in eco-friendly packaging that maintains temperature and texture.",
+    image: "https://images.unsplash.com/photo-1547573854-74d2a71d0826?w=800&auto=format",
+    variant: 'clean' as const,
+    icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+  },
+  {
+    id: 'signature-curries',
+    title: "Signature Curries",
+    description: "Our heritage in every bite. Traditional recipes meet modern techniques.",
+    fullDescription: "House of Curry's pride lies in our secret spice blends and slow-cooked traditional recipes. We bring the authentic soul of India's regional cuisines to the corporate table, ensuring that even in a globalized world, the comfort of a perfect curry is never far away.",
+    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&auto=format",
+    variant: 'dark' as const,
+    icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+  },
+  {
+    id: 'industrial-solutions',
+    title: "Industrial Solutions",
+    description: "Large-scale catering excellence for manufacturing and tech hubs.",
+    fullDescription: "Serving thousands of meals in a single shift requires precision and scale without compromising quality. Our industrial catering programs are optimized for high-volume delivery, strict hygiene protocols, and menus that sustain workers across demanding shifts in Noida and Gurgaon's largest hubs.",
+    image: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&auto=format",
+    variant: 'clean' as const,
+    icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+  }
+];
+
+export const WhatWeDo: React.FC<{ onSelectService: (id: string) => void }> = ({ onSelectService }) => {
   return (
-    <section className="py-32 bg-brand-light relative overflow-hidden">
-      {/* Dynamic Background Elements */}
+    <section id="what-we-do" className="py-32 bg-brand-light relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20">
         <div className="absolute top-1/4 left-10 w-96 h-96 bg-brand-green/10 rounded-full blur-[120px]"></div>
         <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-brand-red/10 rounded-full blur-[120px]"></div>
@@ -99,11 +148,9 @@ export const WhatWeDo: React.FC = () => {
         .delay-3 { animation-delay: 0.3s; }
         .delay-4 { animation-delay: 0.4s; }
         .delay-5 { animation-delay: 0.5s; }
-        .delay-6 { animation-delay: 0.6s; }
       `}</style>
 
       <div className="container mx-auto px-6 lg:px-12">
-        {/* Editorial Heading Section */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-20 gap-8">
           <div className="max-w-3xl space-y-6">
             <div className="flex items-center space-x-4">
@@ -122,61 +169,30 @@ export const WhatWeDo: React.FC = () => {
           </div>
         </div>
 
-        {/* Bento Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-[280px]">
-          
-          {/* Main Hero Card - Spans 2 rows */}
-          <ServiceCard 
-            className="md:row-span-2"
-            delay="delay-1"
-            variant="image"
-            bgImage="https://images.unsplash.com/photo-1555244162-803834f70033?w=800&auto=format"
-            title="Corporate Cafeteria"
-            description="Revolutionizing office dining with chef-curated menus that boost team morale and health."
-            icon={<svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>}
-          />
+          {SERVICES_DATA.map((service, index) => {
+            let className = "";
+            if (service.id === 'corporate-cafeteria') className = "md:row-span-2";
+            if (service.id === 'signature-curries') className = "lg:row-span-2";
+            if (service.id === 'industrial-solutions') className = "md:col-span-2";
 
-          {/* Accent Card */}
-          <ServiceCard 
-            delay="delay-2"
-            variant="accent"
-            title="Premium Events"
-            description="Exquisite gala catering for milestones that demand perfection."
-            icon={<svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z" /></svg>}
-          />
-
-          {/* Clean Card */}
-          <ServiceCard 
-            delay="delay-3"
-            variant="clean"
-            title="Packed Meals"
-            description="Hygienic, premium boxes delivered fresh to your desk."
-            icon={<svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>}
-          />
-
-          {/* Dark Card - Spans 2 rows */}
-          <ServiceCard 
-            className="lg:row-span-2"
-            delay="delay-4"
-            variant="dark"
-            title="Signature Curries"
-            description="Our heritage in every bite. Traditional recipes meet modern culinary techniques."
-            icon={<svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>}
-          />
-
-          {/* Horizontal Spanning Card */}
-          <ServiceCard 
-            className="md:col-span-2"
-            delay="delay-5"
-            variant="clean"
-            title="Industrial Solutions"
-            description="Large-scale catering excellence for manufacturing and tech hubs, ensuring every worker is fueled for peak performance."
-            icon={<svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>}
-          />
-
+            return (
+              <ServiceCard 
+                key={service.id}
+                id={service.id}
+                className={className}
+                delay={`delay-${index + 1}`}
+                variant={service.variant}
+                bgImage={service.image}
+                title={service.title}
+                description={service.description}
+                icon={service.icon}
+                onClick={onSelectService}
+              />
+            );
+          })}
         </div>
 
-        {/* Floating CTA */}
         <div className="mt-20 flex flex-col items-center justify-center space-y-6">
           <div className="p-4 bg-white rounded-3xl shadow-2xl flex items-center space-x-6 border border-slate-50">
             <div className="flex -space-x-3">
