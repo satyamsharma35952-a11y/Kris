@@ -6,6 +6,7 @@ import { HeroGourmet } from './components/HeroGourmet.tsx';
 import { HeroOrganic } from './components/HeroOrganic.tsx';
 import { WhoWeAre } from './components/WhoWeAre.tsx';
 import { WhyChooseUs } from './components/WhyChooseUs.tsx';
+import { HowItWorks } from './components/HowItWorks.tsx';
 import { WhatWeDo, SERVICES_DATA } from './components/WhatWeDo.tsx';
 import { ServiceDetail } from './components/ServiceDetail.tsx';
 import { DesignStyle, ContentData } from './types.ts';
@@ -86,6 +87,7 @@ const App: React.FC = () => {
             {renderHero()}
             <WhoWeAre />
             <WhyChooseUs />
+            <HowItWorks />
             <WhatWeDo onSelectService={setActiveServiceId} />
           </>
         )}
