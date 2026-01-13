@@ -62,12 +62,12 @@ export const HowItWorks: React.FC = () => {
         <div className="text-center mb-24 space-y-6">
           <div className="inline-flex items-center space-x-4">
             <span className="h-[2px] w-12 bg-brand-red"></span>
-            <span className="text-brand-green font-black text-sm uppercase tracking-[0.4em]">The Process</span>
+            <span className="text-brand-green font-black text-sm uppercase tracking-[0.4em]">Why We Excel</span>
             <span className="h-[2px] w-12 bg-brand-red"></span>
           </div>
           <h2 className="text-5xl lg:text-7xl font-bold text-slate-900 tracking-tighter leading-tight">
-            How We Create <br />
-            <span className="italic font-serif text-brand-green font-normal">Memorable</span> Experiences.
+            Our Core <br />
+            <span className="italic font-serif text-brand-green font-normal">Commitment</span> To Quality.
           </h2>
         </div>
 
@@ -75,11 +75,11 @@ export const HowItWorks: React.FC = () => {
           <Step 
             number="01"
             delay="delay-100"
-            title="Discovery Call"
-            description="We begin by understanding your event's unique theme, dietary needs, and vision for the guest experience."
+            title="Fresh Food"
+            description="No frozen or pre-cooked food. All perishable items are bought on a daily basis to ensure maximum flavor."
             icon={
               <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
             }
           />
@@ -87,11 +87,11 @@ export const HowItWorks: React.FC = () => {
           <Step 
             number="02"
             delay="delay-200"
-            title="Menu Curation"
-            description="Our executive chefs craft a bespoke menu blending House of Curry signatures with contemporary global flavors."
+            title="Hygiene And Safety"
+            description="We are fully compliant with COVID-19 norms and safety standards issued by FSSAI for your complete peace of mind."
             icon={
               <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
             }
           />
@@ -99,20 +99,20 @@ export const HowItWorks: React.FC = () => {
           <Step 
             number="03"
             delay="delay-300"
-            title="Grand Execution"
-            description="From seamless setup to professional service, we ensure every detail is perfect so you can enjoy the occasion."
+            title="Multi-cuisine Menu"
+            description="A daily new menu keeps things exciting, with a grand special menu curated once every week for our clients."
             icon={
               <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
               </svg>
             }
           />
         </div>
 
         <div className="mt-24 text-center">
-          <p className="text-slate-400 font-bold uppercase tracking-widest text-xs mb-8">Ready to start your journey?</p>
+          <p className="text-slate-400 font-bold uppercase tracking-widest text-xs mb-8">Ready for premium catering?</p>
           <button className="px-12 py-5 bg-brand-dark text-white rounded-2xl font-black text-lg shadow-2xl shadow-brand-green/20 hover:bg-brand-green transition-all transform hover:-translate-y-1 active:scale-95">
-            Book Your Free Consultation
+            View Sample Weekly Menu
           </button>
         </div>
       </div>
